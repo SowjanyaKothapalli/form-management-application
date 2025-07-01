@@ -1,0 +1,36 @@
+service: flask-backend
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: us-east-1
+  stage: dev
+  memorySize: 512
+  timeout: 10
+  environment:
+    FLASK_ENV: production
+    DATABASE_URL: postgresql://postgres:fullstackdb@database-1.c9eo6u4m6oll.us-east-2.rds.amazonaws.com:5432/postgres
+
+
+plugins:
+  - serverless-wsgi
+  - serverless-python-requirements
+
+custom:
+  wsgi:
+    app: wsgi_handler.handler
+    packRequirements: false
+  pythonRequirements:
+    dockerizePip: false
+    layer: false  # Change to false to include dependencies in the function package
+    zip: true
+    slim: true
+    usePoetry: false
+    noDeploy: []  # Don't exclude any packages
+
+functions:
+  app:
+    handler: wsgi_handler.handler
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'
