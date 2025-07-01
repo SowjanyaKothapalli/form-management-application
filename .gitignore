@@ -1,0 +1,11 @@
+# Python venv
+backend/venv/
+# Terraform
+infrastructure/.terraform/
+infrastructure/.terraform.lock.hcl
+# Bytecode
+backend/src/__pycache__/
+backend/src/*.pyc
+# Local env & coverage
+backend/.env
+backend/.coverage
