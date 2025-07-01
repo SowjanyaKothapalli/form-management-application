@@ -11,7 +11,7 @@ terraform {
 provider "aws" {
   region = var.aws_region
 }
-git add frontend
+
 #################################################
 # S3 Bucket for Frontend Hosting
 #################################################

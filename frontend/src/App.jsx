@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <h1>🚀 Form Submission Portals Deployed via GitHub Actions</h1>
+      <h1>🚀 Form Submission Portal</h1>
 
       <BrowserRouter>
         <Routes>
