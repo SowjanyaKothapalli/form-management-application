@@ -8,4 +8,4 @@ backend/src/__pycache__/
 backend/src/*.pyc
 # Local env & coverage
 backend/.env
-backend/.coverage
+backend/.coveragebackend_lambda.zip
