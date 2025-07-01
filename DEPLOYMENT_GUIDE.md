@@ -15,7 +15,7 @@ To complete the deployment of your Form Management System, follow these steps:
 
 3. **Run Deployment**:
    ```bash
-   cd /home/ashok/Downloads/form-management-system/infrastructure
+   cd /home/user/Downloads/form-management-system/infrastructure
    ./restart_deploy.sh
    ```
    This script will:
