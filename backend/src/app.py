@@ -10,9 +10,9 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 
-from config import Config
-from database import db  # Your SQLAlchemy instance
-from routes import api   # Your API routes
+from .config import Config
+from .database import db  # Your SQLAlchemy instance
+from .routes import api   # Your API routes
 
 # Load environment variables from .env file
 load_dotenv()

@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 load_dotenv()
-from config import Config
-from database import db
-from routes import routes
+from .config import Config
+from .database import db
+from .routes import routes
 
 
 from flask import Flask

@@ -7,7 +7,7 @@ from src.config import TestConfig
 class APITestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app(config_class=TestConfig)
-        self.app.config.from_object(TestConfig)  # ⬅️ override with in-memory DB
+        self.app.config.from_object(TestConfig) 
         self.client = self.app.test_client()
 
         with self.app.app_context():
@@ -20,7 +20,7 @@ class APITestCase(unittest.TestCase):
     def test_health_check(self):
         res = self.client.get('/api/health')
         self.assertEqual(res.status_code, 200)
-        self.assertIn(b'ok', res.data)
+        self.assertEqual(res.get_json()["status"], "server is running")
 
     def test_create_submission(self):
         res = self.client.post('/api/submissions', json={

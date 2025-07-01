@@ -1,32 +1,36 @@
 from flask import Blueprint, request, jsonify
 #from validators import validate_submission  # Optional: your validation logic
-from model import Submission
-from database import db
+from .model import Submission
+from .database import db
 
 # Create a Blueprint named 'api' for consistency with imports
-api = Blueprint("api", __name__)
-@api.route("/", methods=["GET"])
+routes = Blueprint("api", __name__)
+
+@routes.route("/", methods=["GET"])
 def root():
     return "✅ Flask backend is running. Go to /api/health or use the frontend."
 
-@api.route("/api/health", methods=["GET"])
+
+@routes.route("/api/health", methods=["GET"])
 def health_check():
     return jsonify({"status": "server is running"}), 200
     #return {"status": "ok"}, 200
 
-@api.route("/api/submissions", methods=["GET"])
+
+@routes.route("/api/submissions", methods=["GET"])
 def get_submissions():
     submissions = Submission.query.order_by(Submission.created_at.desc()).all()
     print(f"📦 Found {len(submissions)} submissions")
     return jsonify([s.to_dict() for s in submissions]), 200
 
 
-@api.route("/api/submissions/<int:id>", methods=["GET"])
+
+@routes.route("/api/submissions/<int:id>", methods=["GET"])
 def get_submission(id):
     s = Submission.query.get_or_404(id)
     return jsonify(s.to_dict()), 200
 
-@api.route("/api/submissions", methods=["POST"])
+@routes.route("/api/submissions", methods=["POST"])
 def create_submission():
     data = request.get_json()
     required_fields = ["full_name", "email", "phone_number", "age", "preferred_contact"]
@@ -50,7 +54,7 @@ def create_submission():
     db.session.commit()
     return jsonify(s.to_dict()), 201
 
-@api.route("/api/submissions/<int:id>", methods=["PUT"])
+@routes.route("/api/submissions/<int:id>", methods=["PUT"])
 def update_submission(id):
     s = Submission.query.get_or_404(id)
     for key, value in request.get_json().items():
@@ -58,7 +62,7 @@ def update_submission(id):
     db.session.commit()
     return jsonify(s.to_dict()), 200
 
-@api.route("/api/submissions/<int:id>", methods=["DELETE"])
+@routes.route("/api/submissions/<int:id>", methods=["DELETE"])
 def delete_submission(id):
     s = Submission.query.get_or_404(id)
     db.session.delete(s)
