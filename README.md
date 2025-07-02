@@ -22,13 +22,10 @@
 ### ✨ Key Features
 - Responsive form with validation
 - Submit, view, edit, delete form entries
-- Search and filter submissions
-- Pagination, confirmation dialogs, and toasts
+- Confirmation dialogs, and toasts
 
 ### 💸 Cost Optimization
 - Free-tier AWS services (S3, CloudFront, Lambda, API Gateway, RDS t3.micro)
-- Environment-based config for production/dev separation
-- Reserved instances for predictable workloads
 - Tagging and monitoring enabled for usage tracking
 
 ---
@@ -63,7 +60,7 @@ npm run dev
   DB_URL=postgresql://user:pass@host:port/dbname
   AWS_REGION=us-east-2
   ```
-
+but here we would be fetching them from environment variables or AWS Secret
 ---
 
 ## 🧪 Testing
@@ -81,14 +78,12 @@ npm run test
 
 ### 📊 Test Coverage
 - `pytest-cov` for Flask
-- `vitest` or `jest` for React
 - GitHub Actions uploads coverage to Codecov
 
 ### ✅ Strategy
 - Unit tests for API endpoints
 - Input validation tests
 - Database interaction tests (mocked and real)
-- Component and integration tests for frontend
 
 ---
 
@@ -117,6 +112,7 @@ This builds the backend Lambda, frontend, and applies Terraform infra changes.
   - `cloudfront:CreateInvalidation`
   - `lambda:*`, `apigateway:*`, `rds:*` as needed for manual deploys
 
+
 ### 🧱 Resource Provisioning (via Terraform)
 ```bash
 cd infrastructure
@@ -124,6 +120,15 @@ terraform init
 terraform plan
 terraform apply
 ```
+
+#### How Terraform Connects to AWS
+When you run `terraform init`, `terraform plan`, or `terraform apply`, Terraform uses the AWS provider to manage resources. The AWS provider automatically looks for credentials in this order:
+
+1. **Environment variables** (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, etc.)
+2. **The profile specified by `AWS_PROFILE`**
+3. **The default profile in `~/.aws/credentials`**
+
+In this project, because `AWS_PROFILE=default` is set in the deployment scripts, Terraform uses the `[default]` profile from your local AWS credentials file. In CI/CD, credentials are provided via environment variables from GitHub Actions secrets.
 
 ### 📈 Monitoring & Logging
 - **CloudWatch Logs** for Lambda and API Gateway
