@@ -24,9 +24,20 @@ export default function FormPage() {
   useEffect(() => {
     if (editingId) {
       fetch(`${API_BASE}/submissions/${editingId}`)
-        .then(res => res.json())
-        .then(data => setFormData(data))
-        .catch(() => toast.error("Failed to load submission"));
+        .then(res => {
+          if (!res.ok) throw new Error("Not found");
+          return res.json();
+        })
+        .then(data => {
+          if (data && data.id) setFormData(data);
+          else throw new Error("Invalid data");
+        })
+        .catch(() => {
+          toast.error("Failed to load submission");
+          setFormData(emptyForm); // fallback to empty form
+        });
+    } else {
+      setFormData(emptyForm);
     }
   }, [editingId]);
 
